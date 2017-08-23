@@ -1,7 +1,8 @@
 \documentclass[12pt]{jhwhw}
 \author{Ian Malerich}
 \title{Math 331: Homework 0}
-\usepackage{amsmath, amsfonts, amsthm, amssymb, scrextend, setspace, framed}
+\usepackage{amsmath, amsfonts, amsthm, amssymb, scrextend, setspace, framed, tikz}
+\usetikzlibrary{arrows, positioning}
 \onehalfspacing
 
 \begin{document}
@@ -14,9 +15,14 @@
 
 \solution
 \begin{spacing}{1.0}
+
+%% My default frame had a lot more padding than yours
+%% I assume this isn't what you used
+%% but it does look quite a bit closer
+\FrameSep4pt
 \begin{framed}
 
-	This is an inline equation: $x+y=3$ \\
+	This is an inline equation: $x+y=3$. \\
 	This is a displayed equation:
 	$$
 		x + \frac{y}{z - \sqrt{3}} = 2.
@@ -31,6 +37,10 @@
 		\end{cases} 
 	$$
 	This is a matrix: \\
+	%% Your "matrix" (table) had cells taller than wide
+	%% not really sure why, mine don't do that by default
+	%% I found this array stretch replicates it nicely
+	%% so I'm a dirty cheater, so sue me
 	\renewcommand{\arraystretch}{1.4}
 	$$
 		\begin{tabular}{|c|c|c|c|}
@@ -44,6 +54,24 @@
 		\end{tabular}
 	$$
 	This is a figure incorporated in a LaTeX file \\
+	$$
+	%% Marvel in how beautiful my perfect circle graph is
+	%% it's perfect in ever way
+	%% I want extra credit
+	\begin{tikzpicture}
+		\tikzset{vertex/.style = {shape=circle, draw, minimum size=3.0em}}
+		\tikzset{edge/.style = {->,> = latex'}}
+
+		\node[vertex] (a) at (-1.73205, 1.0) {};
+		\node[vertex] (b) at (1.73205, 1.0) {};
+		\node[vertex] (c) at (0,-2) {};
+
+		\draw[edge] (a) to[bend left=45] node[midway, below = 1mm] {$t_1$} (b);
+		\draw[edge] (b) to[bend left=45] node[midway, above left] {$t_a$} (c);
+		\draw[edge] (c) to[bend left=45] node[midway, above right] {$t_2$} (a);
+
+	\end{tikzpicture}
+	$$
 
 \end{framed}
 \end{spacing}
@@ -79,7 +107,7 @@
 	\begin{addmargin}{2em}
 		Note that x is clearly not even, as $f(x) = x/2 > 0$. \\
 		Further, x is not odd and greater than 1 as $(x-1) > 0 \Rightarrow f(x) = -(x-1)/2 < 0$. \\
-		Therefore, we conclude $x = 1$.
+		Therefore, we conclude $x = 1$ as $f(1) = 0$.
 		By the same logic, $y = 1$. \\
 		Thus we have that $x = y = 1$.
 	\end{addmargin}
@@ -150,6 +178,7 @@ example of an infinite set $S$.
 \part
 
 	Define $$f(x) = x+1$$ \\
+	Note that $f$ is defined $\forall x\in \mathbb{N}$ thus $f$ is total. \\
 	If we let $f(x) = f(y)$ then $x+1 = y+1 \Rightarrow x=y$. Clearly $f$ is one-one. \\
 	However, consider $f(x) = 1$, then $x+1 = 1 \Rightarrow x=0$ but $0\not\in \mathbb{N}$. \\
 	Therefore $f$ is not onto as $1\in \mathbb{N}$ is not reachable from its (infinite) domain.
@@ -163,6 +192,7 @@ example of an infinite set $S$.
 		x/2 & x \text{ is odd} \\
 	\end{cases}
 	$$
+	Note that $f$ is defined $\forall x\in \mathbb{N}$ thus $f$ is total. \\
 	Let $y\in \mathbb{N}$, then $f(2y) = (2y)/2 = y$, noting 2y even, therefore $f$ is onto. \\
 	However, $f(1) = f(3) = f(5) = \dotsb = 1$, clearly $f$ is not one-one.
 \end{proof}
@@ -220,19 +250,23 @@ $\{2, 5, 8, 11, 14\dots\}$ \\
 	Show that $\sum_{i=1}^{n} i^{2} = (2n+1)(n+1)n/6$.
 
 \solution
-\begin{proof} via induction on n
+\begin{proof} \textit{via induction on n}
 
 \bigbreak
-\textbf{Base Case.} \\
+\textbf{Induction Basis.} \\
 	let $n=1$ \\
 	then $\sum_{i=1}^{n}i^{2} = n^2 = 1^2 = 1$ \\
 	and $(2n+1)(n+1)n/6 = (2\cdot 1+1)(1+1)\cdot 1/6$ \\
 	$= 3(2)/6 = 6/6 = 1$
 
 \bigbreak
+\textbf{Induction Basis.} \\
+	$\exists\ k\in \mathbb{N} : \sum_{i=1}^{k} i^{2} = (2k+1)(k+1)k/6$. \\
+
+\bigbreak
 \textbf{Induction Step.} \\
-\begin{spacing}{1.6}
-	assume $\exists\ n\in \mathbb{N} : \sum_{i=1}^{n} i^{2} = (2n+1)(n+1)n/6$. \\
+\begin{spacing}{1.4}
+	assume $\exists\ n\in \mathbb{N} : \sum_{i=1}^{n} i^{2} = (2n+1)(n+1)n/6$ via Induction Hypothesis.\\
 	then $\sum_{i=1}^{n}i^{2} + (n+1)^2 = (2n+1)(n+1)n/6 + (n+1)^2$ \\
 	$ = \sum_{i=1}^{(n+1)}i^{2} = (2n+1)(n+1)n/6 + n(n+2)+1$ \\
 	$ = (2n+1)(n+1)n/6 + 6(n(n+2)+1)/6$ \\
