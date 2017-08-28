@@ -1,0 +1,134 @@
+\documentclass[12pt]{jhwhw}
+\author{Ian Malerich}
+\title{Math 331: Homework 1}
+\usepackage{amsmath, amsfonts, amsthm, amssymb, scrextend, setspace, framed, tikz}
+\usetikzlibrary{arrows, positioning}
+\onehalfspacing
+
+\begin{document}
+\raggedright{}
+
+%% Problem #01
+\problem{}
+
+	Give a regular expression, simplified to the best of your abilities, for the language of \textbf{all} strings
+	of \textit{a}'s, \textit{b}'s, and \textit{c}'s where \textit{a} is never immediately followed by \textit{b}.
+
+\solution
+
+	%% any a, has to have another a or c following it,
+	%% else, it is the end of the string
+
+	%% however, b and c may both be followed by any character
+
+	$$
+		(
+		(a^+c^+)^*
+		b^*c^*
+		)^*a^*
+	$$
+
+	\textbf{Reasoning}
+
+	Given any \textit{a}, it must be followed by another \textit{a}, a \textit{c} or be the end of the string.
+	Thus, the first part of the expression $(a^+c^+)*$ covers the case of a string of \textit{a}'s which
+	is not at the end of the string and thus must be followed by a c.
+	\\
+	The case of a string of \textit{a}'s terminating the string is covered at the end of the expression.
+	\\
+	Note that with the expression $(a^+c^+)^*a^*$ we have the set of strings, which if they are not empty,
+	start in \textit{a} and only contain \textit{a} and \textit{c}.
+	\\
+	We simply follow our optional \textit{a}'s (followed by \texti{c}'s) with as many \textt{b}'s and 
+	\textit{c}'s as we want. Note that they may be in any order, as all of our our groups are zero or more
+	inside another group of zero or more.
+	\\
+	Further note that it is perfectly possible for a \textit{b} to be followed by a \textit{a}, this is fine
+	and does not violate the terms of the problem.
+	\\
+	Thus, although \textit{c}'s are required following occurences of \textit{a} in the string, we can add
+	individual \textit{c}'s in at any time with \textit{c}^*
+
+	\bigbreak
+	\textbf{Examples} (note groupings are not necessarily unique) \\
+	Subscripts denote which group is used to generate each substring $((a^+c^+)_1^*b^*_2c^*_3)^*a^*_4$. \\
+	\begin{align*}
+		a &: a_4 \\
+		b &: b_2 \\
+		acacbaaa &: (ac)_1(ac)_1b_2(aaa)_4 \\
+		cccccbbb &: (ccccc)_3(bbb)_2 \\
+		acbacb &: (ac)_1b_2(ac)_1b_2 \\
+		cbacba &: c_3b_2(ac)_1b_2a_4 \\
+	\end{align*}
+
+%% Problem #02
+\problem{}
+
+	Give a regular expression, simplified to the best of your abilities, for the language of \textbf{all} strings
+	of \textit{a}'s, \textit{b}'s, and \textit{c}'s that contain an even number of \textit{b}'s.
+
+\solution
+
+	$$
+		((a^*c^*)+(b(a^*c^*)^*b))^*
+	$$
+
+	\textbf{Reasoning}
+
+	If we read strings from this language left to right, if we find a \textit{b} then there must be another \textit{b}
+	separated only be optional \textit{a}'s and \textit{c}'s. That is to say that, we can assume there will be 
+	no \textit{b}'s between them, else we would have chosen the closer pair.
+	\\
+	Thus the problem can be thought of as a series of $(a^*c^*)^*$, that is, strings of \textit{a}'s and
+	\textit{c}'s, which may or may not be surrounded by \textit{b}'s.
+
+	\bigbreak
+	\textbf{Examples} (note groupings are not necessarily unique) \\
+	Subscripts denote which group is used to generate each substring $((a^*c^*)_1+(b(a^*c^*)_3^*b)_2)^*$. \\
+	\begin{align*}
+		aaaccc &: 
+			(aaa)_1(ccc)_1 \\
+		baaccaab &: 
+			(b(aaccaa)_3b)_2 \\
+		bbbbbb &: 
+			(bb)_2(bb)_2(bb)_2 \\
+		aacbbbbabbacac &: 
+			(aa)_1(c)_1(bb)_2(bb)_2(a)_1(bb)_2(a)_1(c)_1(a)_1(c)_1 \\
+	\end{align*}
+
+%% Problem #03
+\problem{}
+
+	Simplify (if possible) the expression $(a+b+c)^*(a+b)^*$, then describe as concisely as you can
+	in English the language it defines.
+
+\solution
+
+	$$
+		(a+b+c)^*
+	$$
+
+	Note that + takes the union of the left and right, in this case just the characters, 
+	thus it behaves like an or operator.
+	By this logic, we know that $(a+b) \subset (a+b+c)$.
+	Thus any string in $(a+b)*$ could instead be created by another application of $(a+b+c)*$.
+	\bigbreak
+	This expression defines a language of string containing the characters $\{a,b,c\}$ (in any order, combination
+	and quantity).
+
+%% Problem #04
+\problem{}
+
+	Simplify (if possible) the expression $(a+b)^*c^*(a+b)^*$, then describe as concisely as you can
+	in English the language it defines.
+
+\solution
+
+	Cannot be simplified.
+	\bigbreak
+	This expression defines the language containing the characters $\{a,b,c\}$ where all characters \textit{c} must
+	by neighbors of each other, with (any length) combinations of $\{a,b\}$ on either side.
+	Note that the given expression describes exactly that, with no redundancy, 
+	and no part can be removed without removing one of those requirements.
+
+\end{document}
