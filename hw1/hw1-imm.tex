@@ -1,7 +1,8 @@
 \documentclass[12pt]{jhwhw}
 \author{Ian Malerich}
 \title{Math 331: Homework 1}
-\usepackage{amsmath, amsfonts, amsthm, amssymb, scrextend, setspace, framed, tikz}
+\usepackage[demo]{graphicx}
+\usepackage{amsmath, amsfonts, amsthm, amssymb, scrextend, setspace, framed, tikz, subcaption, caption}
 \usetikzlibrary{arrows, positioning}
 \onehalfspacing
 
@@ -130,5 +131,125 @@
 	by neighbors of each other, with (any length) combinations of $\{a,b\}$ on either side.
 	Note that the given expression describes exactly that, with no redundancy, 
 	and no part can be removed without removing one of those requirements.
+
+%% Problem #05
+\problem{}
+
+	Define a DFA, simplified to the best of your abilities, for the language of \textbf{all} strings of 
+	\textit{a}'s, \textif{b}'s, and \textif{c}'s where \textif{a} is never immediately followed by \textif{b}.
+
+\solution
+
+	$$
+		M = (\{s_0,s_1,s_2\},\{a,b,c\},\delta, s_0, \{s_0,s_1\})
+	$$
+
+	Where $\delta: \{s_0, s_1, s_2\} \times \{a,b,c\} \rightarrow \{s_0,s_1,s_)\}$ is defined as follows: \\
+	\begin{figure}[htp]
+		\centering
+		\begin{tabular}{||c|c c c||}
+			\hline
+			\delta & a & b & c \\ \hline
+			s_0 & s_1 & s_0 & s_0 \\ \hline
+			s_1 & s_1 & s_2 & s_0 \\ \hline
+			s_2 & s_2 & s_2 & s_2 \\ \hline
+		\end{tabular}
+	\end{figure}
+
+	As can be observed from the graph below, there are two final states which are considered valid,
+	the first $s_0$ (also the initial state), is for any string which does not end in \textit{a}.
+	The second, $s_1$, represents that the most recent character input was an \textit{a}, note that
+	the only arrows pointing to $s_1$ are for an input of \textit{a}. A string ending in \textit{a} is still
+	valid, so $s_1$ is also a final state. That only leaves $s_2$ which serves as a trap state marking
+	the string as invalid. This state can only be reached from $s_1$ by an input of \textit{b}, thus 
+	represents an input of an \textit{a} immediately followed by \textit{b}.
+
+	\textcolor[RGB]{220,220,220}{\rule{\textwidth}{0.5pt}}
+
+	\begin{figure}[htp]
+		\centering
+		\begin{tikzpicture}[baseline=(current axis.outer east)]
+			\tikzset{vertex/.style = {shape=circle, draw, minimum size=3.0em}}
+			\tikzset{edge/.style = {->,> = latex'}}
+			\tikzset{loop/.style = {looseness=5}}
+
+			\node[vertex, minimum size=2.6em] (b0) at (0, 0) {$s_0$};
+			\node[vertex, minimum size=2.6em] (b1) at (3, 0) {$s_1$};
+
+			\node[vertex] (s0) at (0, 0) {$s_0$};
+			\node[vertex] (s1) at (3, 0) {$s_1$};
+			\node[vertex] (s2) at (6, 0) {$s_2$};
+
+			\draw[edge] (s2) to[loop] node[midway, above] {$a,b,c$} (s2);
+			\draw[edge] (s0) to[loop] node[midway, above] {$b,c$} (s0);
+			\draw[edge] (s1) to[loop] node[midway, above] {$a$} (s1);
+
+			\draw[edge] (s0) to[bend left] node[midway, below] {$a$} (s1);
+			\draw[edge] (s1) to[bend left] node[midway, above] {$c$} (s0);
+			\draw[edge] (s1) to[bend right] node[midway, above] {$b$} (s2);
+		\end{tikzpicture}
+		\caption{}
+		\label{fig:p5state}
+	\end{figure}
+
+%% Problem #06
+\problem{}
+
+	Define a DFA, simplified to the best of your abilities, that recognizes the language
+	$$
+		L = \{w\in \{a,b\}^*: |w|_a \text{ mod } 3 = 0\}.
+	$$
+
+\solution
+
+	$$
+		M = (\{s_0,s_1,s_2\},\{a,b\},\delta, s_0, \{s_0\})
+	$$
+
+	Where $\delta: \{s_0, s_1, s_2\} \times \{a,b\} \rightarrow \{s_0,s_1,s_)\}$ is defined as follows: \\
+	\begin{figure}[htp]
+		\centering
+		\begin{tabular}{||c|c c||}
+			\hline
+			\delta & a & b \\ \hline
+			s_0 & s_1 & s_0 \\ \hline
+			s_1 & s_2 & s_1 \\ \hline
+			s_2 & s_0 & s_2 \\ \hline
+		\end{tabular}
+	\end{figure}
+
+	Note that we needn't concern ourselves with the number of \textit{b}'s we find in our strings.
+	The only determining factor is the number of \textit{a}'s found. Thus we have three states, corresponding
+	to the modulo remainders (respect to 3) for the number of \textit{a}'s. Each \textit{a} will progress
+	to the next state (effectively counting modulo 3). Any \textit{b}'s found along the way form a self loop,
+	and have no impact on the result. The only valid final state is $s_0$ which represents
+	$|w|_a \text{ mod } 3 = 0$.
+
+	\textcolor[RGB]{220,220,220}{\rule{\textwidth}{0.5pt}}
+
+	\begin{figure}[htp]
+		\centering
+		\begin{tikzpicture}[baseline=(current axis.outer east)]
+			\tikzset{vertex/.style = {shape=circle, draw, minimum size=3.0em}}
+			\tikzset{edge/.style = {->,> = latex'}}
+			\tikzset{loop/.style = {looseness=6}}
+
+			\node[vertex, minimum size=2.6em] (b0) at (-1.73205, 1.0) {$s_0$};
+
+			\node[vertex] (s0) at (-1.73205, 1.0) {$s_0$};
+			\node[vertex] (s1) at (1.73205, 1.0) {$s_1$};
+			\node[vertex] (s2) at (0, -2) {$s_2$};
+
+			\draw[edge] (s2) to[loop below] node[midway, below] {$b$} (s2);
+			\draw[edge] (s0) to[loop left] node[midway, left] {$b$} (s0);
+			\draw[edge] (s1) to[loop right] node[midway, right] {$b$} (s1);
+
+			\draw[edge] (s0) to[bend left=45] node[midway, below=1mm] {$a$} (s1);
+			\draw[edge] (s1) to[bend left=45] node[midway, above left] {$a$} (s2);
+			\draw[edge] (s2) to[bend left=45] node[midway, above right] {$a$} (s0);
+		\end{tikzpicture}
+		\caption{}
+		\label{fig:p5state}
+	\end{figure}
 
 \end{document}
