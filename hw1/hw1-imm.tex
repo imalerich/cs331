@@ -44,11 +44,11 @@
 	\textit{c}'s as we want. Note that they may be in any order, as all of our our groups are zero or more
 	inside another group of zero or more.
 	\\
-	Further note that it is perfectly possible for a \textit{b} to be followed by a \textit{a}, this is fine
+	Further note that it is perfectly possible for a \textit{b} to be followed by an \textit{a}, this is fine
 	and does not violate the terms of the problem.
 	\\
 	Thus, although \textit{c}'s are required following occurences of \textit{a} in the string, we can add
-	individual \textit{c}'s in at any time with \textit{c}^*
+	individual \textit{c}'s in at any time with $\textit{c}^*$ (group 3 in the examples below).
 
 	\bigbreak
 	\textbf{Examples} (note groupings are not necessarily unique) \\
@@ -56,6 +56,7 @@
 	\begin{align*}
 		a &: a_4 \\
 		b &: b_2 \\
+		ac &: (ac)_1 \\
 		acacbaaa &: (ac)_1(ac)_1b_2(aaa)_4 \\
 		cccccbbb &: (ccccc)_3(bbb)_2 \\
 		acbacb &: (ac)_1b_2(ac)_1b_2 \\
@@ -71,21 +72,22 @@
 \solution
 
 	$$
-		((a^*c^*)+(b(a^*c^*)^*b))^*
+		(a+c+(b(a+c)^*b))^*
 	$$
 
 	\textbf{Reasoning}
 
-	If we read strings from this language left to right, if we find a \textit{b} then there must be another \textit{b}
-	separated only be optional \textit{a}'s and \textit{c}'s. That is to say that, we can assume there will be 
+	If we read strings from this language left to right, any \textit{b} which we find must be followed by 
+	another \textit{b} separated only be optional \textit{a}'s and \textit{c}'s. 
+	That is to say that, we can assume there will be 
 	no \textit{b}'s between them, else we would have chosen the closer pair.
 	\\
-	Thus the problem can be thought of as a series of $(a^*c^*)^*$, that is, strings of \textit{a}'s and
-	\textit{c}'s, which may or may not be surrounded by \textit{b}'s.
+	Thus the problem can be thought of as the strings $(a+c)^*$, 
+	with optional substrings surrounded by \textit{b}'s.
 
 	\bigbreak
 	\textbf{Examples} (note groupings are not necessarily unique) \\
-	Subscripts denote which group is used to generate each substring $((a^*c^*)_1+(b(a^*c^*)_3^*b)_2)^*$. \\
+	Subscripts denote which group is used to generate each substring $(a_1+c_1+(b(a+c)_3^*b)_2)^*$ \\
 	\begin{align*}
 		aaaccc &: 
 			(aaa)_1(ccc)_1 \\
@@ -110,7 +112,7 @@
 	$$
 
 	Note that + takes the union of the left and right, in this case just the characters, 
-	thus it behaves like an or operator.
+	thus it behaves like an 'or' operator.
 	By this logic, we know that $(a+b) \subset (a+b+c)$.
 	Thus any string in $(a+b)*$ could instead be created by another application of $(a+b+c)*$.
 	\bigbreak
@@ -128,9 +130,9 @@
 	Cannot be simplified.
 	\bigbreak
 	This expression defines the language containing the characters $\{a,b,c\}$ where all characters \textit{c} must
-	by neighbors of each other, with (any length) combinations of $\{a,b\}$ on either side.
+	be neighbors of each other, with strings $\{a,b\}^*$ on either side.
 	Note that the given expression describes exactly that, with no redundancy, 
-	and no part can be removed without removing one of those requirements.
+	and no part can be removed without removing one of those properties.
 
 %% Problem #05
 \problem{}
