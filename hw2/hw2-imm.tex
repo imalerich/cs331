@@ -2,7 +2,7 @@
 \author{Ian Malerich}
 \title{Math 331: Homework 1}
 \usepackage[demo]{graphicx}
-\usepackage{amsmath, amsfonts, amsthm, amssymb, scrextend, setspace, framed, tikz, caption}
+\usepackage{amsmath, amsfonts, amsthm, amssymb, scrextend, setspace, framed, tikz, caption, anyfontsize}
 \usepackage[lofdepth,lotdepth]{subfig}
 \usetikzlibrary{arrows, positioning}
 \onehalfspacing
@@ -23,11 +23,11 @@
 	followed by b's, such that the string has a length that is a multiple of 3.
 
 	$$
-		M = (\{a_0,a_1,a_2,b_0,b_1,b_2, t\},\{a,b\},\delta, a_0, \{a_0,b_0\})
+		M = (\{a_0,a_1,a_2,b_0,b_1,b_2, T\},\{a,b\},\delta, a_0, \{a_0,b_0\})
 	$$
 
-	Where $\delta: \{a_0, a_1, a_2, b_0, b_1, b_2, t\} \times \{a,b\} \rightarrow \{a_0,a_1,a_2,
-	b_0, b_1, b_2)\}$ 
+	Where $\delta: \{a_0, a_1, a_2, b_0, b_1, b_2, T\} \times \{a,b\} \rightarrow \{a_0,a_1,a_2,
+	b_0, b_1, b_2, T)\}$ 
 	is defined by the following directed graph: \\
 	$$
 	\begin{tikzpicture}[baseline=(current axis.outer east)]
@@ -35,18 +35,18 @@
 		\tikzset{edge/.style = {->,> = latex'}}
 		\tikzset{loop/.style = {looseness=6}}
 
-		\node[vertex, minimum size=1.6em] (BBB) at (1.5, -1.7) {};
-		\node[vertex, minimum size=1.6em] (AAA) at (0, 2.598) {};
+		\node[vertex, minimum size=1.6em] (BBB) at (2.25, -2.55) {};
+		\node[vertex, minimum size=1.6em] (AAA) at (0, 3.897) {};
 
-		\node[vertex] (a_1) at (-3, -2.598) {$a_1$};
-		\node[vertex] (a_2) at (3, -2.598) {$a_2$};
-		\node[vertex] (a_0) at (0, 2.598) {$a_0$};
+		\node[vertex] (a_1) at (-4.5, -3.897) {$a_1$};
+		\node[vertex] (a_2) at (4.5, -3.897) {$a_2$};
+		\node[vertex] (a_0) at (0, 3.897) {$a_0$};
 
-		\node[vertex] (b_2) at (-1.5, -1.7) {$b_2$};
-		\node[vertex] (b_0) at (1.5, -1.7) {$b_0$};
-		\node[vertex] (b_1) at (0, 0.9185) {$b_1$};
+		\node[vertex] (b_2) at (-2.25, -2.55) {$b_2$};
+		\node[vertex] (b_0) at (2.25, -2.55) {$b_0$};
+		\node[vertex] (b_1) at (0, 1.337775) {$b_1$};
 
-		\node[vertex] (t) at (0, -5) {$t$};
+		\node[vertex] (t) at (0, -1) {$T$};
 
 		\draw[edge] (a_0) to node[midway, above left] {$a$} (a_1);
 		\draw[edge] (a_1) to node[midway, above right] {$a$} (a_2);
@@ -58,13 +58,13 @@
 
 		\draw[edge] (b_0) to node[midway, above right] {$b$} (b_1);
 		\draw[edge] (b_1) to node[midway, above left] {$b$} (b_2);
-		\draw[edge] (b_2) to node[midway, above right] {$b$} (b_0);
+		\draw[edge] (b_2) to node[midway, below] {$b$} (b_0);
 
-		\draw[edge] (b_0) to node[near end, right] {$a$} (t);
-		\draw[edge] (b_1) to node[near end, right] {$a$} (t);
-		\draw[edge] (b_2) to node[near end, left] {$a$} (t);
+		\draw[edge] (b_0) to node[midway, right] {$a$} (t);
+		\draw[edge] (b_1) to node[midway, right] {$a$} (t);
+		\draw[edge] (b_2) to node[midway, left] {$a$} (t);
 
-		\draw[edge] (t) to[loop right] node[midway] {$a,b$} (t);
+		\draw[edge] (t) to[loop below] node[midway] {$a,b$} (t);
 	\end{tikzpicture}\hfill
 	$$
 
@@ -125,11 +125,11 @@
 
 	$$
 	\begin{tikzpicture}[baseline=(current axis.outer east)]
-		\tikzset{vertex/.style = {shape=circle, draw, minimum size=3.0em}}
+		\tikzset{vertex/.style = {shape=circle, draw, minimum size=2.5em}}
 		\tikzset{edge/.style = {->,> = latex'}}
 		\tikzset{loop/.style = {looseness=6}}
 
-		\node[vertex, minimum size=2.6em] (h) at (4, 0) {};
+		\node[vertex, minimum size=2.3em] (h) at (4, 0) {};
 
 		\node[vertex] (a) at (-4, 0) {$a$};
 		\node[vertex] (b) at (-2, 1) {$b$};
@@ -140,15 +140,15 @@
 		\node[vertex] (g) at (2, -1) {$g$};
 		\node[vertex] (h) at (4, 0) {$h$};
 
-		\draw[edge] (a) to node[midway] {$0$} (b);
-		\draw[edge] (b) to node[midway] {$0$} (c);
-		\draw[edge] (c) to node[midway] {$0$} (d);
-		\draw[edge] (d) to node[midway] {$0$} (h);
+		\draw[edge] (a) to node[midway, above] {$0$} (b);
+		\draw[edge] (b) to node[midway, above] {$0$} (c);
+		\draw[edge] (c) to node[midway, above] {$0$} (d);
+		\draw[edge] (d) to node[midway, above] {$0$} (h);
 
-		\draw[edge] (a) to node[midway] {$1$} (e);
-		\draw[edge] (e) to node[midway] {$1$} (f);
-		\draw[edge] (f) to node[midway] {$1$} (g);
-		\draw[edge] (g) to node[midway] {$1$} (h);
+		\draw[edge] (a) to node[midway, below] {$1$} (e);
+		\draw[edge] (e) to node[midway, below] {$1$} (f);
+		\draw[edge] (f) to node[midway, below] {$1$} (g);
+		\draw[edge] (g) to node[midway, below] {$1$} (h);
 
 		\draw[edge] (a) to[loop above] node[midway] {$0,1$} (a);
 		\draw[edge] (d) to[loop above] node[midway] {$0,1$} (d);
@@ -158,6 +158,45 @@
 
 \solution
 
-	solution goes here
+	$$
+	\begin{tikzpicture}[font=\tiny, baseline=(current axis.outer east)]
+		\tikzset{vertex/.style = {shape=circle, draw, minimum size=2.6em}}
+		\tikzset{edge/.style = {->,> = latex'}}
+		\tikzset{loop/.style = {looseness=6}}
+
+		\node[vertex] (e) at (0,0) {$\epsilon$};
+
+		\node[vertex] (0) at (2,  1.5) {$0$};
+		\node[vertex] (1) at (2, -1.5) {$0$};
+
+		\node[vertex] (00) at (4,  3) {$00$};
+		\node[vertex] (11) at (4, -3) {$11$};
+
+		\node[vertex] (000) at (6,  4.5) {$000$};
+		\node[vertex] (111) at (6, -4.5) {$111$};
+
+		\node[vertex] (0001) at (8,  3) {$0001$};
+		\node[vertex] (1110) at (8, -3) {$1110$};
+
+		\node[vertex] (00010) at (10,  4.5) {$00010$};
+		\node[vertex] (00011) at (10,  1.5) {$00011$};
+		\node[vertex] (11100) at (10, -1.5) {$11100$};
+		\node[vertex] (11101) at (10, -4.5) {$11101$};
+
+		\node[vertex] (111000) at (12,  0) {$111000$};
+		\node[vertex] (F) at (14, 0) {$F$};
+
+		%% Final states
+		\node[vertex, minimum size=2.2em] (fs_11101) at (10, -4.5) {};
+		\node[vertex, minimum size=2.2em] (fs_00010) at (10,  4.5) {};
+		\node[vertex, minimum size=2.2em] (fs_F) at (14, 0) {};
+
+		%% Self loops for final states
+		\draw[edge] (00010) to[loop above] node[midway] {$0$} (00010);
+		\draw[edge] (11101) to[loop below] node[midway] {$1$} (11101);
+		\draw[edge] (F) to[loop right] node[midway] {$0,1$} (F);
+
+	\end{tikzpicture}
+	$$
 
 \end{document}
