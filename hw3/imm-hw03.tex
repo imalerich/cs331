@@ -109,7 +109,6 @@
 		\Longleftrightarrow x = \sum_{i=0}^{n-1}x_i2^i$
 	\end{center}
 	where each bit $x_i$ is a binary digit, either zero or one. \\
-	Consider the language
 	\begin{align*}
 		L = &\{a_0b_0c_0\cdots a_{n-1}b_{n-1}c_{n-1} : n \in \mathbb{N} \wedge \forall i,0\leq i
 		< n, a_i \in \{0,1\}, b_i\in\{0,1\}, c_i\in\{0,1\} \wedge \\
@@ -119,6 +118,62 @@
 
 \solution
 
-	TODO
+	The general idea of this DFA is simple, we have 3 sets of states, and one trap state.
+	The DFA progresses through 3 columns, with the first column representing length mod 3 = 0.
+	The second and third column represent partial sums of the first two bits.
+	Depending on the sum and the next bit, we either enter the trap state, or
+	return to the first column (where state $r$ represents a remainder bit, which we
+	cannot end on, as addition is incomplete).
+	$$
+	\begin{tikzpicture}[baseline=(current axis.outer east)]
+		\tikzset{vertex/.style = {shape=circle, draw, minimum size=3.0em}}
+		\tikzset{edge/.style = {->,> = latex'}}
+		\tikzset{loop/.style = {looseness=7}}
+
+		\node[vertex, minimum size=2.6em] (_s0) at (0, -3) {};
+
+		\node[vertex] (s0) at (0, -3) {$s_0$};
+		\node[vertex] (r) at (0, -6) {$r$};
+
+		\node[vertex] (a0) at (3, -1.5) {$0_1$};
+		\node[vertex] (a1) at (3, -4.5) {$1_1$};
+		\node[vertex] (a2) at (3, -7.5) {$2_1$};
+
+		\node[vertex] (b0) at (6, 0) {$0_2$};
+		\node[vertex] (b1) at (6, -3) {$1_2$};
+		\node[vertex] (b2) at (6, -6) {$2_2$};
+		\node[vertex] (b3) at (6, -9) {$3_2$};
+
+		\node[vertex] (T) at (9, -4.5) {$T$};
+
+		\draw[->] (s0) to node[midway, above left] {$0$} (a0);
+		\draw[->] (s0) to node[midway, above] {$1$} (a1);
+
+		\draw[->] (r) to node[midway, above left] {$0$} (a1);
+		\draw[->] (r) to node[midway, above] {$1$} (a2);
+
+		\draw[->] (a0) to node[midway, above] {$0$} (b0);
+		\draw[->] (a0) to node[midway, above right] {$1$} (b1);
+
+		\draw[->] (a1) to node[midway, above] {$0$} (b1);
+		\draw[->] (a1) to node[midway, above right] {$1$} (b2);
+
+		\draw[->] (a2) to node[midway, above] {$0$} (b2);
+		\draw[->] (a2) to node[midway, above right] {$1$} (b3);
+
+		\draw[->] (b0) to node[midway, above right] {$1$} (T);
+		\draw[->] (b1) to node[midway, above right] {$0$} (T);
+		\draw[->] (b2) to node[midway, below right] {$1$} (T);
+		\draw[->] (b3) to node[midway, below right] {$0$} (T);
+
+		\draw[->] (b0) to[bend right=45] node[midway, above left] {$0$} (s0);
+		\draw[->] (b1) to node[midway, above] {$1$} (s0);
+		\draw[->] (b2) to node[midway, below] {$0$} (r);
+		\draw[->] (b3) to[bend left=45] node[midway, below left] {$1$} (r);
+
+		\draw[->] (T) to[loop right] node[midway, above] {$0,1$} (T);
+
+	\end{tikzpicture}
+	$$
 
 \end{document}
