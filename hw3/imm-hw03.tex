@@ -4,7 +4,7 @@
 \usepackage{amssymb, amsfonts, amsthm, mathtools, graphicx, breqn}
 \usepackage{minted, subfig, float, scrextend, setspace, soul}
 \usepackage{tikz, subcaption, caption}
-\usetikzlibrary{arrows.meta}
+\usetikzlibrary{arrows.meta, automata, positioning}
 \usemintedstyle{friendly}
 
 \onehalfspacing
@@ -79,7 +79,7 @@
 		\node[vertex, minimum size=2.6em] (_abb) at (9, 0) {};
 
 		\node[vertex] (s0) at (3, -3) {$s_0$};
-		\node[vertex] (a) at (3, 0) {$a$};
+		\node[vertex, initial, initial where=left] (a) at (3, 0) {$a$};
 
 		\node[vertex] (ab) at (6, 0) {$ab$};
 		\node[vertex] (abb) at (9, 0) {$abb$};
@@ -133,7 +133,7 @@
 
 		\node[vertex, minimum size=2.6em] (_s0) at (0, -3) {};
 
-		\node[vertex] (s0) at (0, -3) {$s_0$};
+		\node[vertex, initial, initial where=left] (s0) at (0, -3) {$s_0$};
 		\node[vertex] (r) at (0, -6) {$r$};
 
 		\node[vertex] (a0) at (3, -1.5) {$0_1$};
