@@ -123,7 +123,7 @@
 	The DFA progresses through 3 columns, with the first column representing length mod 3 = 0.
 	The second and third column represent partial sums of the first two bits.
 	Depending on the sum and the next bit, we either enter the trap state, or
-	return to the first column (where state $r$ represents a remainder bit, which we
+	return to the first column (where state $c$ represents a carry bit, which we
 	cannot end on, as addition is incomplete).
 	$$
 	\begin{tikzpicture}[baseline=(current axis.outer east)]
@@ -134,7 +134,7 @@
 		\node[vertex, minimum size=2.6em] (_s0) at (0, -3) {};
 
 		\node[vertex, initial, initial where=left] (s0) at (0, -3) {$s_0$};
-		\node[vertex] (r) at (0, -6) {$r$};
+		\node[vertex] (r) at (0, -6) {$c$};
 
 		\node[vertex] (a0) at (3, -1.5) {$0_1$};
 		\node[vertex] (a1) at (3, -4.5) {$1_1$};
