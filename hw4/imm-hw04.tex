@@ -1,0 +1,70 @@
+\documentclass[12pt]{jhwhw}
+\author{Ian Malerich}
+\title{Com S 331: Homework 4}
+\usepackage{amssymb, amsfonts, amsthm, mathtools, graphicx, breqn}
+\usepackage{minted, subfig, float, scrextend, setspace, soul}
+\usepackage{tikz, subcaption, caption}
+\usetikzlibrary{arrows.meta, automata, positioning}
+\usemintedstyle{friendly}
+
+\onehalfspacing
+\begin{document}
+\raggedright
+
+%% Problem 1
+\problem{}
+
+	Use the pumping lemma to prove that 
+	$L = \{ww : w \in \{0,1\}*\}$ is not regular.
+
+\solution
+
+	\begin{proof} via contradiction \\
+		Assume that L is regular, that is, the pumping lemma holds on L.
+		First, note that L is clearly infinite, thus the pumping lemma
+		will not vacuously hold. 
+		\bigbreak
+		Let $p \in \mathbb{Z}^+$ such that the pumping lemma holds by our assumption on $p$. \\
+		Now define $w$ such that $|w| = 4p$ and \\
+		\begin{addmargin}[1em]{}
+			$w_i = 0 \text{ for } 0\leq i<p$, \\
+			$w_i = 1 \text{ for } p\leq i<2p$, \\
+			$w_i = 0 \text{ for } 2p\leq i<3p$, \\
+			$w_i = 1 \text{ for } 3p\leq i<4p$
+		\end{addmargin}
+		Note that $w\in L$. \\
+		Then, by the pumping lemma we must have that $w = xyz$ where
+		$(1)\ |y| \geq 1 \wedge(2)\ |xy| \leq p \wedge(3)\ xy^nz \in L\  \forall n\geq 0$. \\
+		Note that by construction of $w$, $xy$ will be a sequence of repeated $0$'s, as 
+		$|xy| \leq p$ and $\forall\ 0\leqi<p, w_i = 0$.
+		\bigbreak
+		Now consider $xy^nz \text{ where } n\geq 0$. By assumption, we have that
+		$xy^0z \in L$, that is $xz \in L$, where $xy = 0^k1^p0^p1^p$, for some $0\leq k<p$ 
+		(as we have removed at least 1 zero by removing $y$). Assume $w = vv, v\in \{0,1\}^*$
+		by definition of $L$,  then $|v| = \frac{3p + k}{2}$. \\
+		% then $p+k < |v| = \frac{3p + k}{2} < 2p$. \\
+		$|v| = &\frac{3p+k}{2} = 1.5p + 0.5k,\text{ then } p<k\Rightarrow 0.5p<0.5k\Rightarrow$
+		$&p + k < 1.5p + 0.5k = |v|$\\ 
+		further $|v| = 1.5p + 0.5k < 2p$
+		\bigbreak
+		Thus we have, $p + k < |v| < 2p$. That is to say, $v$ splits our string somewhere
+		in the first group of $1$'s.
+		Then $v = 0^k1^p0^m = 0^n1^p$, where $m,n \in \mathbb{Z}^+, m+n = p$. \\
+		However, $0^k1^p0^m$ clearly ends in $0$ where $0^n1^p$ clearly ends in $1\Rightarrow
+		v \neq v$.
+		This is a contradiction, the pumping lemma fails, and this language must
+		be nonregular.
+	\end{proof}
+
+%% Problem 2
+\problem{}
+
+	Prove that $L = \{w\in\{a,b\}^* : |w|_a \neq |w|_b \}$ is nonregular.
+
+\solution
+
+	\begin{proof}
+		TODO
+	\end{proof}
+
+\end{document}
