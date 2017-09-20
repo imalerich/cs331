@@ -20,11 +20,11 @@
 \solution
 
 	\begin{proof} via contradiction \\
-		Assume that L is regular, that is, the pumping lemma holds on L.
-		First, note that L is clearly infinite, thus the pumping lemma
+		Assume that $L$ is regular, that is, the pumping lemma holds on $L$.
+		First, note that $L$ is clearly infinite, thus the pumping lemma
 		will not vacuously hold. 
 		\bigbreak
-		Let $p \in \mathbb{Z}^+$ such that the pumping lemma holds by our assumption on $p$. \\
+		Let $p \in \mathbb{Z}^+$ such that the pumping lemma holds forr $p$. \\
 		Now define $w$ such that $|w| = 4p$ and \\
 		\begin{addmargin}[1em]{}
 			$w_i = 0 \text{ for } 0\leq i<p$, \\
@@ -40,8 +40,9 @@
 		\bigbreak
 		Now consider $xy^nz \text{ where } n\geq 0$. By assumption, we have that
 		$xy^0z \in L$, that is $xz \in L$, where $xy = 0^k1^p0^p1^p$, for some $0\leq k<p$ 
-		(as we have removed at least 1 zero by removing $y$). Assume $w = vv, v\in \{0,1\}^*$
-		by definition of $L$,  then $|v| = \frac{3p + k}{2}$. \\
+		(as we have removed at least 1 zero by removing $y$). 
+		We know $w\in L$ by the pumping lemma, thus let $w = vv, v\in \{0,1\}^*$
+		then $|v| = \frac{3p + k}{2}$. \\
 		% then $p+k < |v| = \frac{3p + k}{2} < 2p$. \\
 		$|v| = &\frac{3p+k}{2} = 1.5p + 0.5k,\text{ then } p<k\Rightarrow 0.5p<0.5k\Rightarrow$
 		$&p + k < 1.5p + 0.5k = |v|$\\ 
@@ -57,14 +58,28 @@
 	\end{proof}
 
 %% Problem 2
-\problem{}
+\problem{}languase
 
 	Prove that $L = \{w\in\{a,b\}^* : |w|_a \neq |w|_b \}$ is nonregular.
 
 \solution
 
-	\begin{proof}
-		TODO
+	\begin{proof} via contradiction \\
+		Assume that $L$ is regular. Then, by the closure properties
+		of regular languages, we have that $\overline{L}$ is regular.
+		Where $\overline{L} = \{w\in \{a,b\}^* : |w|_a = |w|_b\}$ for $U=\{a,b\}^*$.
+		As $\overline{L}$ is regular, the pumping lemma must hold on
+		$\overline{L}$. Let $p$ justify this fact. \\
+		Now define $w = a^pb^p$. Note that $|w|_a = |w|_b = p$, thus $w\in \overline{L}$.
+		Apply the pumping lemma on $w$, by selecting $w=xyz$.
+		As $|xy| \leq p$ we have that $xy = a^{|xy|}$ then $y=a^{|y|}$.
+		Define $k = |p| > 0$, then $y = a^k$. Now, pump $y$ for $n=0$.
+		Thus we create a new string $w' = xz$, $w'\in \overline{L}$ by the pumping lemma.
+		In $w$ we had $|w|_a = p$, but we have now removed $k>0$ of them, thus
+		$|w'|_a = (p-k) \neq p = |w|_b = |w'|_b$ (note we haven't removed any b's).
+		As we now know $|w'|_a \neq |w'|_b$ we conclude $w\not\in \overline{L}$.
+		This contradicts the pumping lemma, thus via contradiction, $\overline{L}$ is 
+		not regular, therefore $L$ is not regular (again by the closure properties).
 	\end{proof}
 
 \end{document}
