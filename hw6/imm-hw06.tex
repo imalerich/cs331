@@ -63,11 +63,34 @@
 \problem{}
 
 	Define a CFG that generates the following language over $\{t,f,\wedge,\vee,\neg,(,),=\}$: \\
-	L = $\{w=x : w \text{ is a logical expression over } \{t,f\}, x\in \{t,f\}
-	\text{ and } x \text{ is the truth value of } w\}$
+	L = $\{w=x : w \text{ is a logical expression over } \{t,f\}, x\in \{t,f\}$
+	$\text{ and } x \text{ is the truth value of } w\}$
 
 \solution
 
-	TODO
+	G = $\{\{S,T,F\}, \{t,f,\wedge,\vee,\neg,(,),=\}, P, S\}$ with productions $P$ given by
+
+	\begin{align*}
+		S &\rightarrow T=t \\
+		S &\rightarrow F=f \\
+		T &\rightarrow t \\
+		F &\rightarrow f \\
+		T &\rightarrow \neg(F) \\
+		F &\rightarrow \neg(T) \\
+		T &\rightarrow (T \wedge T) \\
+		F &\rightarrow (T \wedge F) \\
+		F &\rightarrow (F \wedge T) \\
+		F &\rightarrow (F \wedge F) \\
+		T &\rightarrow (T \vee T) \\
+		T &\rightarrow (T \vee F) \\
+		T &\rightarrow (F \vee T) \\
+		F &\rightarrow (F \vee F) \\
+	\end{align*}
+
+	The general idea with this CGF is that we start with the solution (true or false) and
+	then derive what strings can produce that result from the definitions of each operation.
+	For example $T\rightarrow \neg(F)$ and $T\rightarrow \neg(T)$ describe what happens
+	via the negation operator on each possible input, where the variables $T$ and $F$ stand
+	for a sort of ``partial sum" for true and false respectively.
 
 \end{document}
