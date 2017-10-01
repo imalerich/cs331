@@ -1,0 +1,73 @@
+\documentclass[12pt]{jhwhw}
+\author{Ian Malerich}
+\title{Com S 331: Homework 6}
+\usepackage{amssymb, amsfonts, amsthm, mathtools, graphicx, breqn}
+\usepackage{subfig, float, scrextend, setspace, soul}
+\usepackage{tikz, subcaption, caption}
+\usetikzlibrary{arrows.meta, automata, positioning}
+
+\onehalfspacing
+\begin{document}
+\raggedright
+
+%% Problem 1
+\problem{}
+
+	Define a context-free grammar for the language L = $\{0^n1^m0^m1^n: n,m\in \mathbb{N}\}$.
+
+\solution
+
+	Assumes $0\in \mathbb{N}$. \\
+	G = $(\{S, X\}, \{0,1\}, P, S)$ with productions P given by
+
+	\begin{align*}
+		S &\rightarrow 0S1 \\
+		S &\rightarrow \epsilon  \\
+		S &\rightarrow X \\
+		X &\rightarrow 1X0 \\
+		X &\rightarrow \epsilon \\
+	\end{align*}
+
+	Here, $S$ is used to create the string $0^n1^n$. Once these have been created,
+	$S$ transfers control to $X$ who creates $1^m0^m$ exactly in the middle of the
+	string created by $S$. When put together we end up with $0^n1^m0^m1^n$.
+	Note that $0^n1^n$ can be created by sending $S\rightarrow\epsilon$ and the string
+	$1^m0^m$ can be created by immediately sending $S\rightarrow X$.
+
+%% Problem 2
+\problem{}
+
+	Define a context-free grammar for the language L = $\{a^nb^m: n\leq 3m\}$.
+
+\solution
+
+	Assumes $n,m\in \mathbb{N} \text{ and } 0\in \mathbb{N}$.  \\
+	G = $(\{S\}, \{a,b\}, P, S)$ with productions $P$ given by
+
+	\begin{align*}
+		S &\rightarrow Sb \\
+		S &\rightarrow aSb \\
+		S &\rightarrow aaSb\\
+		S &\rightarrow aaaSb\\
+		S &\rightarrow \epsilon \\
+	\end{align*}
+
+	My approach here is pretty simple, first note that we can have any number of $a$'s that 
+	we want so long as we don't have more than 3 for every $b$ at the end of the string.
+	Thus we can say that for every b, there are no more than 3$a$'s present in the string.
+	This is exactly what my grammar shows, along with the requirement that all $a$'s precede
+	all $b$'s. Note that the empty string is of course allowed,
+	with $n=m=0$.
+
+%% Problem 3
+\problem{}
+
+	Define a CFG that generates the following language over $\{t,f,\wedge,\vee,\neg,(,),=\}$: \\
+	L = $\{w=x : w \text{ is a logical expression over } \{t,f\}, x\in \{t,f\}
+	\text{ and } x \text{ is the truth value of } w\}$
+
+\solution
+
+	TODO
+
+\end{document}
