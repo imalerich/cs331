@@ -91,6 +91,9 @@
 	then derive what strings can produce that result from the definitions of each operation.
 	For example $T\rightarrow \neg(F)$ and $T\rightarrow \neg(T)$ describe what happens
 	via the negation operator on each possible input, where the variables $T$ and $F$ stand
-	for a sort of ``partial sum" for true and false respectively.
+	for a sort of ``partial sum" for true and false respectively. Note that $\epsilon$ is 
+	never used, as the empty string is not supported, and we can never have ``half" of an
+	expression as this would produce an undefined result. The rules $T\rightarrow t$ and
+	$F\rightarrow f$ thus serve as the only terminating productions.
 
 \end{document}
