@@ -69,6 +69,12 @@
 
 \solution
 
+	The NPDA here is pretty simple, push every $a$ we find on the stack, for each $b$ there
+	may either be 1 or 2 corresponding $a$'s. Thus we have a split in the branching of the NDA,
+	one which pops a single a off the stack on input of $b$, and the other which pops two $a$'s
+	off the stack on an input of $b$. Note that the empty string is also in this language,
+	as it may make the both $\epsilon$ transitions as nothing is ever pushed on the stack.
+
 	$$
 	\begin{tikzpicture}[baseline=(current axis.outer east)]
 		\tikzset{vertex/.style = {shape=circle, draw, minimum size=3.0em}}
@@ -78,17 +84,14 @@
 		\node[vertex, initial, initial where=left] (s0) at (0, 0) {$s_0$};
 
 		\node[vertex] (q1) at (3, 0) {$q_1$};
-		\node[vertex] (q2) at (3, -3) {$q_2$};
 		\node[vertex] (F) at (8, 0) {$F$};
 		\node[vertex, minimum size=2.6em] (_F) at (8, 0) {};
 
 		\draw[-{>[scale=1.75]}] (s0) to[loop above] node[midway, above] {$a$ : push $a$} (s0);
 		\draw[-{>[scale=1.75]}] (q1) to[loop above] node[midway, above] {$b$ : pop $a$} (q1);
+		\draw[-{>[scale=1.75]}] (q1) to[loop below] node[midway, below] {$b$ : pop $aa$} (q1);
 		\draw[-{>[scale=1.75]}] (s0) to node[midway, above] {$\epsilon$} (q1);
 		\draw[-{>[scale=1.75]}] (q1) to node[midway, above] {$\epsilon$ : empty stack} (F);
-
-		\draw[-{>[scale=1.75]}] (q1) to[bend right] node[midway, left] {$b$ : pop $a$} (q2);
-		\draw[-{>[scale=1.75]}] (q2) to[bend right] node[midway, right] {$\epsilon$ : pop $a$} (q1);
 
 	\end{tikzpicture}
 	$$
@@ -107,8 +110,11 @@
 	$u$ off the stack, we do so with at least one different character than what was found
 	on the stack. Below, $B$ represents the 'bad' state, where $v$ has not yet proven itself
 	unequal to $u^R$, as soon as we pop something different then we read, we enter $G$,
-	the 'good' state, here we can read anything until the stack is empty, and enter our 
-	final state.
+	the 'good' state, here we can read anything (where $Z$ represents whatever happens to be at the
+	top of the stack) until the stack is empty, and enter our 
+	final state. Note that $\epsilon$ is not in this language, as $\epsilon = \epsilon^R$, note
+	that the empty string will never be able to make the distinguishing transition from the 'Bad' state
+	to the 'Good' state, handling this case.
 
 	$$
 	\begin{tikzpicture}[baseline=(current axis.outer east)]
@@ -134,7 +140,9 @@
 			{$1$ : pop $1$} (B);
 
 		\draw[-{>[scale=1.75]}] (G) to[loop above] node[midway, above] 
-			{$\{0,1\}$ : pop $\{0,1\}$} (G);
+			{$0$ : pop $Z$} (G);
+		\draw[-{>[scale=1.75]}] (G) to[loop below] node[midway, below] 
+			{$1$ : pop $Z$} (G);
 
 		\draw[-{>[scale=1.75]}] (s0) to node[midway, above] {$\epsilon$} (B);
 		\draw[-{>[scale=1.75]}] (B) to[bend right] node[midway, below] {$0$ : pop $1$} (G);
