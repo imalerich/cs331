@@ -1,0 +1,114 @@
+\documentclass[12pt]{jhwhw}
+\author{Ian Malerich}
+\title{Com S 331: Homework 8}
+\usepackage{amssymb, amsfonts, amsthm, mathtools, graphicx, breqn}
+\usepackage{subfig, float, scrextend, setspace, soul}
+\usepackage{tikz, subcaption, caption, graphviz}
+\usetikzlibrary{arrows.meta, automata, positioning}
+
+\onehalfspacing
+\begin{document}
+\raggedright
+
+%% Problem 1
+\problem{}
+
+	Define a NPDA for the language $L = \{a^nb^m: m,n\in \mathbb{N}, n\geq 3, m> n\}$.
+
+\solution
+	The NPDA here is pretty simple, $n \geq 3$ so we need at minimum $3$ a's in our string, so read
+	those first, we can then add as many a's as we want, so we optionally push those onto the stack.
+	Once we are done reading those we need more b's, so start reading b's until we we have an empty 
+	stack. Once the stack is empty we know number of a's is equal to number of b's, so if we read one
+	our condition is met and we can enter our final state. From there, there is no further limit on the number
+	of b's (other than they must be finite of course), so we can continue to read b's with no consequences
+	(and no stack modifications) once in the final state.
+
+	$$
+	\begin{tikzpicture}[baseline=(current axis.outer east)]
+		\tikzset{vertex/.style = {shape=circle, draw, minimum size=3.0em}}
+		\tikzset{edge/.style = {-{>[scale=1.75]},> = latex'}}
+		\tikzset{loop/.style = {looseness=7}}
+
+		\node[vertex, initial, initial where=left] (s0) at (0, 0) {$s_0$};
+		\node[vertex, minimum size=2.6em] (_F) at (2, -4) {};
+
+		\node[vertex] (a1) at (4, 0) {$a_1$};
+		\node[vertex] (a2) at (8, 0) {$a_2$};
+		\node[vertex] (a3) at (12, 0) {$a_3$};
+		\node[vertex] (b) at (8, -4) {$b$};
+		\node[vertex] (F) at (2, -4) {$F$};
+
+		\draw[-{>[scale=1.75]}] (s0) to node[midway, above] {$a$ : push $a$} (a1);
+		\draw[-{>[scale=1.75]}] (a1) to node[midway, above] {$a$ : push $a$} (a2);
+		\draw[-{>[scale=1.75]}] (a2) to node[midway, above] {$a$ : push $a$} (a3);
+
+		\draw[-{>[scale=1.75]}] (a3) to[loop right] node[midway, right] {$a$ : push $a$} (a3);
+
+		\draw[-{>[scale=1.75]}] (a3) to[bend left] node[midway, below right] {$b$ : pop $a$} (b);
+		\draw[-{>[scale=1.75]}] (b) to[loop below] node[midway, below] {$b$ : pop $a$} (b);
+
+		\draw[-{>[scale=1.75]}] (b) to node[midway, above] {$b$ : empty stack} (F);
+		\draw[-{>[scale=1.75]}] (F) to[loop below] node[midway, below] {$b$} (F);
+
+	\end{tikzpicture}
+	$$
+
+%% Problem 2
+\problem{}
+
+	Consider the language
+	$$
+	L = \{w \in \{a,b\}^* : \text{the longest run of $a$'s in $w$ is longer than any run of $b$'s in $w$}\}
+	$$
+	Prove that $L$ is not context-free.
+
+\solution
+
+	\begin{proof} \textit{by contradiction} \\
+		Assume $L$ is context-free. 
+		Let $p\geq 1$ be the pumping length for $L$ by the Pumping Lemma for Context-Free Languages. \\
+		Define $w = b^{p-1}a^pb^{p-1}$, note that the longest run of a's $=p$ and the longest run of b's $=p-1$,
+		thus $w\in L$. We now apply the pumping lemma on this string.
+		Let $w=uvwxy$ by this fact.
+		Note that as $|vwx|\leq p$ by construction of $w$, if $b\in vwx$ then all b's in $vwx$ must come
+		from one side of side of the string $w$. This is because $a^p$ is long enough that $vwx$ will not
+		be able to reach the other set of b's without violating $|vwx|\leq p$.
+		Therefore, when we pump, we are only modifying one run of b's (or none at all).
+
+		\bigbreak
+		case $|vx|_a \geq |vx|_b$: \\
+		\begin{addmargin}[1em]{}
+			Pump for $n=0$, thus we are removing at least 1 a from our string, we may or may not be removing
+			any b's, but if we are removing b's, we are only removing them from one side of our string, the
+			other side will remain untouched. By removing at least one a, our longest run of a's is now maximally
+			$p-1$. As noted before, one run of b's must be remaining untouched, thus our longest run of b's is
+			still also $p-1$. This violates the assumptions of our language, thus 
+			$uv^0wx^0y \not\in L$ contradicting the pumping lemma.
+		\end{addmargin}
+		case $|vx|_a < |vx|_b$: \\
+		\begin{addmargin}[1em]{}
+			Pump for $n=2$, we have added at least one additional b over a's, if we added $k$ a's,
+			we know have a longest run of $p+k$, note that all a's are next to each other in our string.
+			We have also pumped one side of b's, we have added at least $k+1$ b's, so this particular run
+			of b's is now minimally of size $p-1+k+1=p+k$, thus our longest run of b's is now $p+k$ equal to our
+			longest run of a's. This violates the assumptions of our language thus 
+			$uv^2wx^2y \not\in L$ contradicting the pumping lemma.
+		\end{addmargin}
+		
+	\end{proof}
+
+%% Problem 3
+\problem{}
+
+	Prove or disprove that the following language is context-free:
+	$$
+	L = \{\alpha 2\beta : \alpha,\beta \in 1(0+1)^0, [\alpha]_2 < [\beta]_2\}
+	$$
+	where $[x]_2$ is the numerical value of the string $x$ interpreted as a positive number in base 2.
+
+\solution
+
+	TODO
+
+\end{document}
