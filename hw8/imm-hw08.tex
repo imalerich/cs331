@@ -95,6 +95,9 @@
 			longest run of a's. This violates the assumptions of our language thus 
 			$uv^2wx^2y \not\in L$ contradicting the pumping lemma.
 		\end{addmargin}
+
+		Both exhaustive cases lead to contradictions, thus our initial assumption must be incorrect and
+		we conclude that $L$ is not context-free.
 		
 	\end{proof}
 
@@ -103,12 +106,47 @@
 
 	Prove or disprove that the following language is context-free:
 	$$
-	L = \{\alpha 2\beta : \alpha,\beta \in 1(0+1)^0, [\alpha]_2 < [\beta]_2\}
+	L = \{\alpha 2\beta : \alpha,\beta \in 1(0+1)^*, [\alpha]_2 < [\beta]_2\}
 	$$
 	where $[x]_2$ is the numerical value of the string $x$ interpreted as a positive number in base 2.
 
 \solution
 
-	TODO
+	\begin{proof} \textit{by contradiction} \\
+		Assume $L$ is context-free. 
+		Let $p\geq 1$ be the pumping length for $L$ by the Pumping Lemma for Context-Free Languages. \\
+		Define $w=10^{p-1}1^{p-1}0\ 2\ 10^{p-1}1^p$. 
+		Note that $[\alpha]_2+1 = [\beta]_2 \Rightarrow [\alpha]_2 < [\beta]_2$ 
+		therefore $w\in L$. We can now apply the pumping lemma to this string.
+		Let $w=uvwxy$ by this fact. 
+		\bigbreak
+		Note that the number of bits in $\alpha=\beta=2p$. \\
+		Further note that we must pump both sides of the string, if we pump only $\alpha$, we can pump
+		it larger than the $\beta$ (as it will have more bits), if we pump only $\beta$, we simply pump it for
+		$n=0$ and it will be less than $\alpha$ (as it will have less bits). We can extend this assumption to
+		state that both sides of our pumping ($x$ and $v$) must be equivalent in size (and we must pump something)
+		we will denote this size $k$, that is $|x|=|v|=k\geq 1$. Again, if this is
+		not the case, we simply pump such that $\alpha$ has more bits, or pump $n=0$ such that $\beta$ has less.
+		Also observe that $2$ cannot be pumped as the string necessarily must only have one 2. 
+		From these observations, it must be the case that
+		$2\in w$ (else we would only be pumping $\alpha$ or only $\beta$) 
+		and $v\subset \alpha \land x\subset \beta$.
+		We also cannot pump the initial 1 of $\beta$, as that will leave a $\beta$ starting with a 0, which is
+		not allowed. To pump with a leading 1, we need to follow $v$ with a 1, but the next $1$ in $\beta$ cannot
+		be reached, as we only have $p/2$ bits to work with ($|xv|\leq p \land |x|=|v|\Rightarrow |v|\leq p/2$) 
+		in $\beta$ which has $p-1$ 
+		0's before 
+		that $1$ can be reached.
+		\bigbreak
+		Note, that as $|vwx|\leq p$ we must then be pumping $1^{k-1}0$ in $v$ and $0^{k}$ in $x$.
+		Therefore, after pumping n times, our string now looks like
+		$$
+			10^{p-1}1^{p-k}(1^{k-1}0)^n\ 2\ 1(0^k)^n0^{p-k-1}1^p
+		$$
+		Our strings still have the same length, but $\alpha$ has $p-1$ leading 0's (after the initial 1 bit), 
+		where as $\beta$ now has $kn+p-k-1=k(n-1)+p-1$, thus for $n>1$ because $\alpha$ and $\beta$ have the
+		same number of bits, and $\alpha$ has it's second leading 1 bit before $\beta$ will, 
+		thus $[\alpha]_2 > [\beta]_2$ therefore the pumping lemma fails and the language is not context-free.
+	\end{proof}
 
 \end{document}
