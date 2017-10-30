@@ -100,9 +100,39 @@
 
 \solution
 
-	\begin{proof}
+\begin{proof}
 
-	\end{proof}
+	Let $L_1, L_2$ be Turing-acceptable languages, then define their corresponding 
+	Turing machines as $M_1, M_2$ respectively.
+
+	We will then define a new machine $M_C$ which operates on the union of
+	$Q,\Sigma$ for $M_1, M_2$. We will distinguish each state by the source machine,
+	thus $Q_1 \cap Q_2 = \emptyset$. The initial state of $M_U$ will be the initial
+	state of $M_1$. We will also include a set of 'marked' characters in our alphabet,
+	which correspond each possible state of $Q_1\times \Sigma_1$ (note this additional set of 
+	characters is finite), these are unique from other characters in our alphabet.
+
+	Our new machine $M_C$ will first run $M_1$ until it reaches any arbitrary accepting state,
+	note $M_1$ need not have halted. $M_C$ then marks on the tape with one of the 'marked' symbols
+	which corresponds to the state of $M_1$ and the current character at that point. We know
+	the string up to this marked point is accepted by $M_1$ thus we then run $M_2$ on the remainder
+	of the string, if $M_2$ accepts the remainder, then we halt and accept the string. If $M_2$ does not
+	accept the remainder, we enter a new set of states which take us back to the marked location,
+	rewrites the original character (remember that it is encoded into our marked character), restores
+	the state of $M_1$ and repeats the process until the next accepting state of $M_1$ is reached.
+	If we continue and run out of characters in the string for which $M_1$ could accept, we halt
+	and reject the string.
+	
+	By performing this process, $M_C$ divides an input string $w$ into two substrings $w=xy$, where $x$
+	is accepted by $M_1$, the machine then checks if $y$ is accepted by $M_2$ if so then $w$ must
+	be in the concatenation by definition. If not, we grow $x$ until it is again accepted by $M_1$, 
+	and perform our check once again. Clearly then if $w$ is in the concatenation of $L_1, L_2$ $M_C$
+	will accept it by testing every possible combination until a division is found that works.
+	If $w$ is not in the concatenation of $L_1,L_2$, then we must eventually reach a point where no
+	more strings can be accepted by $M_1$ (we are trying to feed a string longer than our initial string
+	into $M_1$) at this point our machine will halt and reject the string.
+
+\end{proof}
 
 %% Problem 3
 \problem{}
