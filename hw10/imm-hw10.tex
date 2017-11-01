@@ -138,9 +138,9 @@
 \problem{}
 
 	Consider a new type of \textit{deterministic} machine, having one read-only input tape
-	and two stacks. The tap is read-only, it cannot be written, but the head can move left, right,
-	or do nothing. Each stack operates, independently of the other, as in a deterministic pushdown
-	automaton:
+	and two stacks. The tape is read-only, it cannot be written, but the head can move left, right,
+	or do nothing. Each stack operates (independently of the other) as in a deterministic pushdown
+	automaton.
 	$$
 		M = (K,\Sigma, \Gamma_1, \Gamma_2, z_1, z_2, \delta, s)
 	$$
@@ -159,5 +159,100 @@
 	\end{enumerate}
 
 \solution
+
+	\part
+
+	The $\delta$ function on input will know it's current state, the current character under it's head,
+	as well as the character at the top of each of it's stacks. On output it will produce
+	either a new state or halting state, the head can move left/right/stay, and it can push/pop a character
+	onto/off either of it's stacks. Note this transition function is basically the transition function
+	of NPDA glued together with the transition function of Turing machines, with the exception
+	of the absence of the output character which the Turing machine writes back to the stack.
+
+	$$
+		\delta: (K\times\Sigma\times\Gamma_1\times\Gamma_2) \rightarrow 
+			((K\cup \{h\})\times \{L,R,\epsilon\}\times\Gamma_1^*\times\Gamma_2^*)
+	$$
+
+	\part
+	This machine is equivalent to a Turing machine.
+	\begin{proof}
+		Let $T$ be a Turing machine which represents some language $L$.
+		We will construct an equivalent machine $M$ using our new type of machine to $T$.
+		Let $\Sigma_T$ be the alphabet used by the Turing machine.
+		Then our machine $M$ will have $\Sigma=\Sigma_T,\Gamma_1=\Sigma_T,\Gamma_2=\Sigma_T$, that is
+		both our tape and both stacks have the same alphabet as the Turing machine tape.
+		Our set of states will be equivalent to those of the Turing machine, with the exception
+		of two additional setup states which I will denote $S_M$ and $S_C$. $S_M$ will serve
+		as the initial state of $M$.
+		\bigbreak
+		\textbf{SETUP} The tape for machine $M$ is initialized to the same state as the Turing machine $T$.
+		When in state $S_M$, the delta function will move the head to the left (remember
+		that the machine starts at the end of the input) and will repeat this process until
+		it reaches either the end of the tape or the first input character (if this is an infinite tape,
+		we could overstep, read nothing, then step back). The machine then enters state $S_C$, in which
+		it will read a single character, push that character on to it's first stack, then move one character
+		to the right. Once it reads an empty character (has reached the end of its input) it enters 
+		the initial state of the Turing machine.
+		\bigbreak
+		\textbf{CLAIM} Stack 1 represents characters to the left of the head in the Turing machine,
+		and Stack 2 represents characters to the right (in the initial state of the Turing machine).
+		This is clear to see, since we read from left to right while pushing onto the stack, Stack 1
+		must necessarily the characters to the right of the Turing machine head (with nearest being
+		closer to the top of the stack), the Turing machine has nothing to its right therefore
+		Stack 2 (which is empty save $z_2$) is equivalent. Note that the top of Stack 2 is considered
+		by my convention to by the location of the head.
+
+		For the following operations on Turing machine $T$, I will define an operation on $\delta$ which
+		I claim will be equivalent. In all cases, machine $M$ enters it's equivalent state that $T$ does. 
+		Note that for move operations if we have an empty stack (save $z_i$) we can ignore the pop
+		and for what I describe as the ``same value" below, instead use the empty character for the
+		corresponding push. Also note that once we have read the tape, because of the
+		fact that our stack now represents our tape, we never have to move the actual head we 
+		will instead simulate with the stacks as shown below. \\
+		\bigbreak
+		\textbf{$T$ WRITES TO HEAD} $M$ pops from Stack 2 and pushes the write value to Stack 2. \\
+		\begin{addmargin}{1em}
+			Note that Stack 1 does not change, the Turing machine does not move, therefore
+			the left of the head does not change. The Turing machine has a new value at it's head.
+			By convention, this is top of Stack 2. When the top is removed, the value overwritten
+			is removed now the item to the right of the head is at the top of the stack. After
+			writing the top of Stack 2 now points to the new written value the same at the 
+			head of the Turing machine. Thus these two operations are equivalent.
+		\end{addmargin}
+		\textbf{$T$ MOVES LEFT} $M$ pops from Stack 1 and pushes the same value to Stack 2. \\
+		\begin{addmargin}{1em}
+			The Turing machine has one less character to the left of it, what was 2 characters away
+			is now 1 character away. After popping from Stack 1, $M$ has one less character to its left
+			and what was 2 characters away is now 1 character away. \\
+			What was under the Turing machine head is now to its right, what was to the left of the Turing
+			machine is now under the head. After pushing the head of Stack 1, what was to the left of
+			$M$ is now top of Stack 2 (that is, underneath the head of $M$). Further what was at the top
+			of stack 2 is now one character away (as we pushed a new value).
+		\end{addmargin}
+		\textbf{$T$ MOVES RIGHT} $M$ pops from Stack 2 and pushes the same value to Stack 1. \\
+		\begin{addmargin}{1em}
+			Same as above, one less character to the right in $T$, where popping from Stack 2
+			corresponds in one less character to the right in $M$. Pushing the same value to Stack 1
+			is equivalent to having the character under the head now to the left of $T$ after moving.
+			Again, note that if Stack 2 only contains $z_2$ do not pop from Stack 2, instead push the 
+			empty character onto Stack 1. By the above it is clear that this will be equivalent, as an
+			empty stack implies that there was nothing (infinitely many empty characters) to the right
+			of the head.
+		\end{addmargin}
+		\textbf{$T$ HALTS AND ACCEPTS/REJECTS} $M$ also halts and accepts/rejects (same as $T$)
+		\begin{addmargin}{1em}
+			$T$ and $M$ are in equivalent states, thus when $T$ halts, $M$ can therefore also
+			halt with the same result as $T$.
+		\end{addmargin}
+
+		Therefore in all situations, the machine we have defined represents the tape of $T$ through 
+		use of its two stacks. Further, after completing its setup, $M$ will always be 
+		in an equivalent state to $T$. Therefore, given the same input both $T$ and $M$ will perform
+		the same operations and produce the same result. With the only difference being
+		that $M$ is using stacks to represent the tape (initialized from its actual tape) where as
+		$T$ can perform all its operations directly on the actual tape.
+
+	\end{proof}
 
 \end{document}
