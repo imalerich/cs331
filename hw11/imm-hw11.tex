@@ -135,6 +135,10 @@
 		After enumerating all strings we would check that counter $\leq 10$ and if so we would accept.
 		Note that this requires checking \textbf{all} possible strings and this is the problem. Strings
 		can be arbitrarily large to infinite (though not infinite) and thus we cannot possible check all strings.
+		There is also a potential problem of $M$ not halting for a given input, though this we can overcome
+		by simulating multiple Turing machines, and adding a new set of Turing machines to simulate adding
+		the next character to the current string (as a string which is substring to another string will
+		behave equivalently until the difference is reached).
 		Therefore \hlred{$L$ is not Turing-acceptable and cannot possibly then be Turing-decidable} (note
 		it cannot be decidable without first being acceptable).
 
@@ -145,9 +149,14 @@
 		We have a finite alphabet we are working with that is encoded into $p(M)$.
 		We can enumerate every possible string for sizes counting from $0,1,2,...$ and so on
 		keeping a counter on when we find a string accepted by M. Once this counter reaches 11,
-		we halt and accept. Because we know $M$ has at least $11$ such strings, and these strings
+		we halt and accept. We must do this search in parallel, in a sort of breadth first search branching, 
+		this is because $M$ may not halt for certain inputs. If we do this search one iteration at a time
+		branching out and expanding to simulate adding characters to the string, then we can guarantee
+		that we will terminate when we find $11$ strings, even if some early input is still running.
+		\bigbreak
+		That is, because we know $M$ has at least $11$ such strings, and these strings
 		have finite length, we must therefore be guaranteed to halt in finite time. Given a machine
-		we would want to reject our machine will never halt (as argued below under decidability), thus this
+		we would want to reject, our machine will never halt (as argued below under decidability), thus this
 		machine accepts the definition. Therefore \hlgreen{$L$ is Turing-acceptable}.
 
 	\bigbreak
@@ -208,5 +217,8 @@
 	is not decidable ($M_1$ and $M_2$ are Turing machines, of course).
 
 \solution
+
+	\begin{proof}
+	\end{proof}
 
 \end{document}
