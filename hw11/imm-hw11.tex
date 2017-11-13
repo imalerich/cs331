@@ -1,0 +1,61 @@
+\documentclass[12pt]{jhwhw}
+\author{Ian Malerich}
+\title{Com S 331: Homework 11}
+\usepackage{amssymb, amsfonts, amsthm, mathtools, graphicx, breqn}
+\usepackage{subfig, float, scrextend, setspace, soul}
+\usepackage{tikz, subcaption, caption, graphviz}
+\usetikzlibrary{arrows.meta, automata, positioning}
+
+\onehalfspacing
+\begin{document}
+\raggedright
+
+%% Problem 1
+\problem{}
+
+	Are the following languages Turing decidable, Turing acceptable but not Turing-decidable,
+	or not even Turing acceptable?
+
+	\begin{itemize}
+		\item $L=\{p(M)p(w): M 
+			\text{ uses a finite number of tape cells when running on input }w\}$.
+		\item $L=\{p(M)p(w)01^n0: M 
+			\text{ uses at most $n$ tape cells when running on input}w\}$.
+	\end{itemize}
+
+	Here, ``using $n$ cells" means that the head of the (deterministic) TM $M$ reaches
+	the $n$-th cell from the left during its computation. Justify your answer clearly:
+	both exercises require careful thinking.
+
+\solution
+
+%% Problem 2
+\problem{}
+
+	Are the following languages Turing-decidable? Turing-acceptable but not Turing-decidable?
+	Not even Turing-acceptable? For each answer, just give an intuitive explanation of
+	your reasoning, no formal proof is required (just as in class, $M$ is a generic
+	deterministic Turing machine, $w$ is a generic input string to it, and $p$ is an
+	encoding function).
+
+	\begin{itemize}
+		\item $\{p(M) : |L(M)| \leq 10\}$
+		\item $\{p(M) : |L(M)| \geq 10\}$
+		\item $\{p(M)p(w) : M \searrow w \text{ in 10 steps or less }\}$
+		\item $\{p(M)p(w) : M \searrow w \text{ in 10 steps or more }\}$
+	\end{itemize}
+
+\solution
+
+%% Problem 3
+\problem{}
+
+	Use reduction to prove that the language 
+	$$
+		L = \{p(M_1)p(M_2): L(M_1) \subseteq L(M_2)\}
+	$$
+	is not decidable ($M_1$ and $M_2$ are Turing machines, of course).
+
+\solution
+
+\end{document}
