@@ -1,0 +1,192 @@
+\documentclass[12pt]{jhwhw}
+\author{Ian Malerich}
+\title{Com S 331: Homework 11}
+\usepackage{amssymb, amsfonts, amsthm, mathtools, graphicx, breqn}
+\usepackage{subfig, float, scrextend, setspace, soul}
+\usepackage{tikz, subcaption, caption, graphviz, color}
+\usetikzlibrary{arrows.meta, automata, positioning}
+
+\newcommand{\hlred}[1]{{\sethlcolor{pink}\hl{#1}}}
+\newcommand{\hlgreen}[1]{{\sethlcolor{lime}\hl{#1}}}
+
+\onehalfspacing
+\begin{document}
+\raggedright
+
+%% Problem 1
+\problem{}
+
+	You are employed as a programmer, and you are asked to write the given program.
+	For each case, write "Y" or "N" if the program can or cannot 
+	be written. Do not concern yourself with memory limitations, that is, assume
+	that the computer used to run your program has a large, effectively unbounded,
+	amount of memory.
+
+\solution
+
+\part %% (a)
+	\begin{center}
+	\textit{
+		receives in input a generic C program $x$, 
+		and counts the number of statements in $x$.
+	}
+	\end{center}
+	Y
+
+\part %% (b)
+	\begin{center}
+	\textit{
+		receives in input a generic C program $x$,
+		and an input string $w$, and counts the number statements executed
+		at least once when $x$ runs on input $w$.
+	}
+	\end{center}
+	N
+
+\part %% (c)
+	\begin{center}
+	\textit{
+		receives in input a generic C program $x$ and an input string  $w$, and 
+		counts the number of statements never executed when $x$ runs on
+		input $w$.
+	}
+	\end{center}
+	N
+
+\part %% (d)
+	\begin{center}
+	\textit{
+		receives an input a generic C program $x$ and decides whether $x$ is
+		syntactically correct.
+	}
+	\end{center}
+	Y
+
+\part %% (e)
+	\begin{center}
+	\textit{
+		receives in input two natural numbers and computes a specific function
+		$f: \mathbb{N}^2 \Rightarrow \mathbb{N}$.
+	}
+	\end{center}
+	N
+
+\part %% (f)
+	\begin{center}
+	\textit{
+		receives in input a generic arithmetic expression $e$ composed of integers
+		and the four arithmetic operators, and computes its value.
+	}
+	\end{center}
+	Y
+
+\part %% (g)
+	\begin{center}
+	\textit{
+		halts on the empty string
+	}
+	\end{center}
+	Y
+
+\part %% (h)
+	\begin{center}
+	\textit{
+		receives in input a generic C program $x$ and decides whether $x$ halts
+		only on the empty string.
+	}
+	\end{center}
+	N
+
+\part %% (i)
+	\begin{center}
+	\textit{
+		receives in input two generic regular expressions and decides whether
+		they are equivalent.
+	}
+	\end{center}
+	Y
+
+\part %% (j)
+	\begin{center}
+	\textit{
+		receives in input a generic C program $x$ and the name of one of its functions, f,
+		and decides whether $x$ can ever call $f$.
+	}
+	\end{center}
+	N
+
+\part %% (k)
+	\begin{center}
+	\textit{
+		receives in input a generic C program $x$, an input string $w$, and the name
+		of one of its functions, $f$, and decides whether $x$ calls $f$ when
+		running on input $w$.
+	}
+	\end{center}
+	N
+
+\part %% (l)
+	\begin{center}
+	\textit{
+		receives in input two generic C program $x_1$ and $x_2$ and an input
+		string $w$, and decides whether $x_1$ and $x_2$ produce the same output
+		when running on input $w$.
+	}
+	\end{center}
+	N
+
+\part %% (m)
+	\begin{center}
+	\textit{
+		receives in input two generic C programs $x_1$ and $x_2$ and decides
+		whether $x_1$ and $x_2$ produce the same output when running on every
+		possible input.
+	}
+	\end{center}
+	N
+
+\part %% (n)
+	\begin{center}
+	\textit{
+		receives in input two generic C programs $x_1$ and $x_2$, and decides
+		whether $x_1$ and $x_2$ produce the same output when running on at least one
+		input.
+	}
+	\end{center}
+	N
+
+\part %% (o)
+	\begin{center}
+	\textit{
+		receives in input a generic C program $x$, an input string $w$, and a natural
+		number $n$, and decides whether $x$ uses less than $n$ bytes of memory when 
+		running on $w$.
+	}
+	\end{center}
+	Y
+
+\part %% (p)
+	\begin{center}
+	\textit{
+		receives in input a generic C program $x$, an input string $w$, and 
+		decides whether there is an $n\in \mathbb{N}$ such that $x$ uses less
+		than $n$ bytes of memory running on input $w$.
+	}
+	\end{center}
+	N
+
+%% Problem 2
+\problem{}
+
+	Use reduction to prove that the language
+	$$
+		L = \{p(M)p(w) :\text{ the TM $M$ never enters its initial state again when
+			running on $w$}\}
+	$$
+	is undecidable.
+
+\solution
+
+	TODO
+
+\end{document}
