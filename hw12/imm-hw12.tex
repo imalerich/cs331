@@ -17,7 +17,7 @@
 \problem{}
 
 	You are employed as a programmer, and you are asked to write the given program.
-	For each case, write "Y" or "N" if the program can or cannot 
+	For each case, write ``Y" or ``N" if the program can or cannot 
 	be written. Do not concern yourself with memory limitations, that is, assume
 	that the computer used to run your program has a large, effectively unbounded,
 	amount of memory.
@@ -66,7 +66,7 @@
 	\begin{center}
 	\textit{
 		receives in input two natural numbers and computes a specific function
-		$f: \mathbb{N}^2 \Rightarrow \mathbb{N}$.
+		$f: \mathbb{N}^2 \rightarrow \mathbb{N}$.
 	}
 	\end{center}
 	N
@@ -188,6 +188,37 @@
 \solution
 
 	\begin{proof} \textit{via contradiction} \\
+		Assume that $L$ is decidable $\Rightarrow \exists$ a Turing Machine $K$ which generates $L$.
+		Define a new Turing machine $K'$ which takes as input a Turing machine $M$ and string $w$
+		encoded as $p(M)p(w)$. $K'$ will perform a series of modifications to the input machine $M$,
+		we will call this modified machine $M'$.
+		Denote the initial state of $M$ as $q_0$, $K'$ will create a new state $q_0'$, set it as the
+		new initial state for $M'$ and add an $\epsilon$-transition from $q_0'\rightarrow q_0$. Thus
+		$M$ halts $\Leftrightarrow M'$ halts. Note that $M'$ will never enter state $q_0'$ again 
+		when running.
+		\bigbreak
+		Next take the accepting and rejecting states of $M$, call them $a$ and $r$, these will no longer
+		be the halting states of $M'$, but otherwise exist the same. Instead introduce new states $a'$ and $r'$
+		which are the respective accepting and rejecting states, however these include no edges. Next add
+		$\epsilon$-transitions from $a$ and $r$ to $q_0'$. 
+		Then $M$ halts $\Leftrightarrow$ $M$ enters either
+		state $a$ or $r$ $\Leftrightarrow$ $M'$ enters state $q_0'$ again$^{\textcolor{red}{[1]}}$. 
+		Further, if $M$ does not halt then
+		$M$ does not enter states $a$ or $r$. We know the only transitions into $q_0'$ are through $a$ and $r$, we
+		therefore can conclude that $M'$ does not enter state $q_0'$ again$^{\textcolor{red}{[2]}}$.
+		\bigbreak
+		Now that our machine $K'$ has set up this machine $M'$ based on its input, $K'$ will then run
+		the machine $K$ recognizing $L$ on $M'$ and output the result. 
+		Note that $M'$ is guaranteed to not halt, but that is not
+		important or relevant to machine $K.$ Construction of our $M'$ is easily computable, further $K$ is guaranteed
+		to return a result by assumption. Thus $K'$ is decidable.
+		\bigbreak
+		If $K'$ accepts then $q_0'$ is entered again $\Rightarrow$ $M$ halts$^{\textcolor{red}{[1]}}$. \\
+		If $K'$ rejects then $q_0'$ is not entered again $\Rightarrow$ $M$ hangs$^{\textcolor{red}{[2]}}$. \\
+		\bigbreak
+		Thus $K'$ solves the halting problem $\Rightarrow$ $K'$ is undecidable. This contradicts
+		our statement that $K'$ is decidable. Therefore our assumption is false and we conclude
+		that $L$ is undecidable.
 	\end{proof}
 
 \end{document}
