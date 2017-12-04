@@ -16,9 +16,36 @@
 %% Problem 1
 \problem{}
 
-	Define an unrestricted grammar for the language $\{ww : w\in \{0,1\}^*\}$.
+	Define an unrestricted grammar for the language $L = \{ww : w\in \{0,1\}^*\}$.
 
 \solution
+
+	Let $G = (\{S, R, T, \#, Q\}, \{0,1\}, P, S)$ with productions $P$ given by
+
+	\begin{align*}
+		S &\rightarrow R\# \\
+		R &\rightarrow 0R0\ |\ 1R1\ |\ T \\
+		T &\rightarrow TQ \\
+		Q00 &\rightarrow 0Q0 \\
+		Q01 &\rightarrow 0Q1 \\
+		Q10 &\rightarrow 1Q0 \\
+		Q11 &\rightarrow 1Q1 \\
+		Q0\# &\rightarrow \#0 \\
+		Q1\# &\rightarrow \#1 \\
+		T\# &\rightarrow \epsilon \\
+	\end{align*}
+
+	The idea behind this grammar is relatively straightforward. R generates a string of the format
+	$ww^T : w\in \{0,1\}^*$. S ensures that there is a non-terminal $\#$ at the end, this is our pivot point
+	which we will be flipping $w^T$ over. On completion, R will take the form $wTw^T$. Thus the entire
+	string looks like $wTw^T\#$. The production $T\rightarrow TQ$ produces a non-terminal $Q$, who's productions
+	carry the first bit to its right and inserts it over the pivot. By definition of these productions, $Q's$ cannot
+	pass each other while moving bits. Thus, as $T$ can generate a $TQ$ for each bit, bits will be dumped
+	from left to right over the pivot in reverse order, producing $w^T^T = w$. After these operations
+	complete we have a string of the form $wT\#w$. We apply the final production $T\#\rightarrow \epsilon$ to
+	arrive at a string of terminals exactly of the form $\{ww : w\in \{0,1\}^*\}$. Note if we continued
+	to create $Q's$ via $T$ we would have $wTQ^n\#w, n\in \mathbb{N}, n\geq 1$, 
+	no production can be applied to $Q^n\#$ and thus the string will never be able to remove its non-terminals.
 
 %% Problem 2
 \problem{}
